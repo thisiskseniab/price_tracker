@@ -1,0 +1,20 @@
+# This is an example config file that can be used with price_tracker.py
+
+# Amazon credentials
+[credentials]
+AMAZON_ACCESS_KEY = YOUR_ACCESS_KEY
+AMAZON_SECRET_KEY = YOUR_SECRET_KEY
+AMAZON_ASSOC_TAG = YOUR_ASSOC_TAG
+
+# NAME = ID_TAG
+[products]
+EarthquakeEmergencyKit = B000FJQQVI
+Chemex = B000I1WP7W
+MoreUsefulThings = PRODUCT_ID
+#...
+
+# Gmail credentials
+# If using 2-factor authentication, create application specific password here
+[gmail]
+address = your_email@gmail.com
+pwd = your_pwd_or_app_pwd
