@@ -3,6 +3,7 @@ from amazon.api import AmazonAPI
 from ConfigParser import SafeConfigParser
 import redis
 import smtplib
+import os
 
 def connect_to_amazon(file):
     config = SafeConfigParser()
@@ -44,7 +45,7 @@ def send_email(file, text):
 
 # entry in redis will look like
 # title: "price_old:price_new"
-def do_things_with_redis(redis_server, amazon, products):
+def track_prices(redis_server, amazon, products, file):
     for product_id in products.itervalues():
         product = amazon.lookup(ItemId=product_id)
         title = product.title
@@ -58,20 +59,22 @@ def do_things_with_redis(redis_server, amazon, products):
             if difference != 0.0:
                 if difference < 0.0:
                     message = "Hey, looks like price for " + title + " have decreased by " + str(difference) + " from " + str(float(price_old)) +  " to " + str(float(price_now))
-                    send_email('request', message)
+                    send_email(file, message)
                 else:
                     message = "Hey, looks like price for " + title + " have increased by " + str(difference) + " from " + str(float(price_old)) +  " to " + str(float(price_now))
-                    send_email('request', message)
+                    send_email(file, message)
         else:
             print "This is a first run of the program, adding initial data..."
             key = str(price_now) + ":" + str(price_now)
             redis_server.set(title, key)
 
 def main():
+    cwd = os.getcwd()
+    request_file = cwd+'/request'
     redis_server = redis.StrictRedis(host='localhost', port=6379, db=0)
-    amazon = connect_to_amazon('request')
-    products = get_products('request')
-    do_things_with_redis(redis_server, amazon, products)
+    amazon = connect_to_amazon(request_file)
+    products = get_products(request_file)
+    track_prices(redis_server, amazon, products, request_file)
 
 if __name__ == "__main__":
     main()
