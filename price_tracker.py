@@ -192,7 +192,7 @@ def main():
     redis_server = redis.StrictRedis(host='localhost', port=6379, db=0)
     amazon = connect_to_amazon(request_file)
     products = get_products(request_file)
-    track_prices(redis_server, amazon, products)
+    track_prices(redis_server, amazon, products, request_file)
 
 if __name__ == "__main__":
     main()
