@@ -34,19 +34,18 @@ Installation
 * Edit request file with your list of Amazon products and product IDs, your AWS credentials, Amazon associates tag, and Gmail address and password
 * Run price_tracker.py occasionally or set up a cron job to run it automatically for you
 * If using crobjob:
-  * uncomment and edit line 176 in price_tracker.py file to provide absolute path to the request file
-  * install a cronjob
 ```
 $ crontab -e
 # This example will run the price tracker every hour
-0 */1 * * * /absolute/path/to/price_tracker.py
+0 */1 * * * /absolute/path/to/price_tracker.py --file "/absolute/path/to/request"
 ```
 
 TODO:
 ============================
 Not in any particular order
 * accept args from the command line for the following options:
-  * path to request file
+  ~~* path to request file~~
+  ~~* clean up redis data~~
   * first run
   * no spreadsheets
   * email only when price decreased

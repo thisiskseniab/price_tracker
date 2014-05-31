@@ -2,6 +2,8 @@
 from amazon.api import AmazonAPI
 from ConfigParser import SafeConfigParser
 from os import getcwd
+from optparse import OptionParser
+import sys
 import redis
 import smtplib
 
@@ -133,7 +135,6 @@ def write_spreadsheet(file, title, prices):
     except Exception as e:
         print e
 
-
 # entry in redis will look like
 # title: "price_lowest:price_new"
 def track_prices(redis_server, amazon, products, file):
@@ -185,11 +186,29 @@ def track_prices(redis_server, amazon, products, file):
 
 def main():
     cwd = getcwd()
-    request_file = cwd+'/request'
-    # If using a cronjob to run price tracker
-    # uncomment next line and provide absolute path to the request file
-    # request_file = '/absolute/path/to/request'
     redis_server = redis.StrictRedis(host='localhost', port=6379, db=0)
+    parser = OptionParser()
+    parser.description = '''This is a script that tracks  prices from Amazon. Read README.md for more information.'''
+    parser.add_option("--file", action="store", type="string", 
+        default = cwd + "/request", metavar = "/absolue/path/to/request", 
+        dest = "file", help="provide absolue path to the request file, if not in the current"
+        " directory or running tracker with a cronjob")
+    parser.add_option("--clean", action="store_true", dest = "clean",
+                        help = "clean all data in redis server")
+    (options, args) = parser.parse_args()
+
+    if options.clean:
+        try:
+            redis_server.flushall()
+            sys.exit("Successfully cleaned redis data")
+        except Exception as e:
+            print "Something went wrong while cleaning data"
+            print "Here is the actual error: "
+            print e
+    
+    if options.file:
+        request_file = options.file
+    
     amazon = connect_to_amazon(request_file)
     products = get_products(request_file)
     track_prices(redis_server, amazon, products, request_file)
