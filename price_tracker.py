@@ -181,7 +181,7 @@ def track_prices(redis_server, amazon, products, file):
             # Setup spreadsheet
             spreadsheet_setup(file)
             # Add first data to it
-            write_spreadsheet(file, key)
+            write_spreadsheet(file, title, key)
 
 def main():
     cwd = getcwd()
