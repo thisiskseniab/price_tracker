@@ -6,9 +6,9 @@ Overview
 
 Price Tracker is a very simple tracker of Amazon product prices.
 
-In a config (see request.example) add your AWS credentials, Amazon product ids that you want to track and your Gmail credentials. 
+In a config (see request.example) add your AWS credentials, Amazon product ids that you want to track and your Gmail credentials.
 
-This might eventually turn into a useful webapp or something. Knowing me, probably not. So use command line. 
+This might eventually turn into a useful webapp or something. Knowing me, probably not. So use command line.
 
 Sending g-emails with smtplib.
 
@@ -44,8 +44,8 @@ TODO:
 ============================
 Not in any particular order
 * accept args from the command line for the following options:
-  ~~* path to request file~~
-  ~~* clean up redis data~~
+  * ~~ path to request file~~
+  * ~~ clean up redis data~~
   * first run
   * no spreadsheets
   * email only when price decreased
