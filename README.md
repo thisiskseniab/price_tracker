@@ -44,8 +44,8 @@ TODO:
 ============================
 Not in any particular order
 * accept args from the command line for the following options:
-  * ~~ path to request file~~
-  * ~~ clean up redis data~~
+  * ~~path to request file~~
+  * ~~clean up redis data~~
   * first run
   * no spreadsheets
   * email only when price decreased
